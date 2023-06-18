@@ -6,7 +6,7 @@ app.use(express.json());
 app.use(express.static("./public"))
 app.use(cors())
 
-app.get('/', (req, res) => {
+app.get('/test', (req, res) => {
     res.send('Hello World!');
 })
 
