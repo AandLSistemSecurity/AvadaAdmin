@@ -1,0 +1,12 @@
+{
+    "name": "name",
+    "email": "email",
+    "company": "company",
+    "phone": "phone",
+    "city": "city",
+    "state": "state",
+    "address": "address",
+    "budget": 1000,
+    "term": "term",
+    "message": "message"
+}
