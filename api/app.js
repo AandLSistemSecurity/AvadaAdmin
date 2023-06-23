@@ -118,7 +118,7 @@ app.get('/dashboard', authToken, (req, res) => {
 //TODO Change Domain
 
 app.post('/logout', (req, res) => {
-    res.clearCookie('access_token', { maxAge: 3600000, httpOnly: true, domain: 'fotovoltaiceongrid.onrender.com', sameSite: true, secure: true})
+    res.clearCookie('access_token', { maxAge: 3600000, httpOnly: true})
     // res.clearCookie('access_token', { maxAge: 3600000, httpOnly: true, domain: 'localhost', sameSite: true, secure: true })
     res.status(200).json({
         path: '/login/'
@@ -138,7 +138,7 @@ app.post('/login', async (req, res) => {
                     const username = req.body.username
                     const user = { name: username }
                     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' })
-                    res.cookie('access_token', accessToken, { maxAge: 3600000, httpOnly: true, domain: 'fotovoltaiceongrid.onrender.com', sameSite: true, secure: true})
+                    res.cookie('access_token', accessToken, { maxAge: 3600000, httpOnly: true})
                     // res.cookie('access_token', accessToken, { maxAge: 3600000, httpOnly: true, domain: 'localhost', sameSite: true, secure: true })
                     res.status(200).json({
                         path: '/dashboard/'
