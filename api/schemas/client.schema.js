@@ -1,9 +1,5 @@
 const clientSchema = {
-    name: {
-        type: String,
-        required: true,
-        unique: true
-    },
+    name: String,
     email: String,
     company: String,
     phone: String,
