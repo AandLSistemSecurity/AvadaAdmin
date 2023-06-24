@@ -23,6 +23,8 @@ app.use(cookieParser())
 app.use(express.static('./dashboard/login'));
 app.use(express.static('./dashboard/board'));
 
+app.disable('x-powered-by');
+
 
 const clientSchema = require('./schemas/client.schema')
 const ClientModel = mongoose.model('Client', clientSchema)
