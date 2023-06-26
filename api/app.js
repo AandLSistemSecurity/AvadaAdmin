@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const Joi = require('joi');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const request = require('request')
 
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
     console.log('MongoDB connected')
@@ -68,6 +69,7 @@ function validateClient(req, res, next) {
         budget: Joi.number().required(),
         term: Joi.string().required(),
         message: Joi.string(),
+        captcha: Joi.string().required()
     })
 
     const validateInput = (input) => schema.validate(input);
@@ -179,18 +181,40 @@ app.get('/getAllClients', authToken, async (req, res) => {
 })
 
 
-app.post("/newClient", validateClient, async (req, res) => {
-    try {
-        const newClient = new ClientModel(req.body);
-        await newClient.save();
-        res.status(200).json({
-            status: "success",
-        })
-    } catch (err) {
-        res.status(500).json({
-            status: "error",
-        })
-    }
+app.post("/newClient", validateClient, async (req, response) => {
+    const secretKey = '6LdS-80mAAAAAMwzfr9S3VLJUNWeNRUcSYKaSh13'
+
+    const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`
+
+    let captchaPassed = false
+
+    request(verifyUrl, (err, res, body) => {
+        console.log(body);
+        if(body.success == false){
+            return response.status(401).json({
+                msg: 'Failed'
+            })
+        }else{
+            try {
+                const newClient = new ClientModel(req.body);
+                newClient.save().then(() => {
+                    return response.status(200).json({
+                        status: "success",
+                    })
+                }).catch((err) => {
+                    console.log(err);
+                })
+            } catch (err) {
+                return response.status(500).json({
+                    status: "error",
+                })
+            }
+        }
+
+
+    })
+
+
 })
 
 
