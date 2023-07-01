@@ -30,7 +30,7 @@ app.disable('x-powered-by');
 const clientSchema = require('./schemas/client.schema')
 const ClientModel = mongoose.model('Client', clientSchema)
 
-const userSchema = require('./schemas/user.schema')
+const userSchema = require('./schemas/user.schema');
 const UserModel = mongoose.model('User', userSchema)
 
 
@@ -84,31 +84,34 @@ function validateClient(req, res, next) {
     }
 }
 
-app.post('/newUser', async (req, res) => {
-    bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
-        if (err) {
-            console.log(err)
-        } else {
-            const newUser = new UserModel({
-                username: req.body.username,
-                password: hash
-            })
 
-            newUser.save().then(() => {
-                res.status(200).json({
-                    status: "success",
-                })
+//TODO Uncomment this
 
-            }).catch((err) => {
-                console.log(err)
-                res.status(500).json({
-                    status: "error",
-                })
+// app.post('/newUser', async (req, res) => {
+//     bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+//         if (err) {
+//             console.log(err)
+//         } else {
+//             const newUser = new UserModel({
+//                 username: req.body.username,
+//                 password: hash
+//             })
 
-            })
-        }
-    })
-})
+//             newUser.save().then(() => {
+//                 res.status(200).json({
+//                     status: "success",
+//                 })
+
+//             }).catch((err) => {
+//                 console.log(err)
+//                 res.status(500).json({
+//                     status: "error",
+//                 })
+
+//             })
+//         }
+//     })
+// })
 
 app.get('/login', async (req, res) => {
     res.sendFile(path.resolve(__dirname, '../dashboard/login/index.html'))
@@ -119,13 +122,25 @@ app.get('/dashboard', authToken, (req, res) => {
     res.sendFile(path.resolve(__dirname, '../dashboard/board/index.html'))
 })
 
-//TODO Change Domain
 
 app.post('/logout', (req, res) => {
-    res.clearCookie('access_token', { maxAge: 3600000, httpOnly: true})
-    // res.clearCookie('access_token', { maxAge: 3600000, httpOnly: true, domain: 'localhost', sameSite: true, secure: true })
+    res.clearCookie('access_token', { maxAge: 3600000, httpOnly: true })
     res.status(200).json({
         path: '/login/'
+    })
+})
+
+app.post("/changePass", authToken, async (req, res) => {
+    const hashed = await bcrypt.hash(req.body.newPassword, saltRounds);
+    await UserModel.findOneAndUpdate({ username: req.body.username }, { password: hashed }).then((data) => {
+        res.status(200).json({
+            status: "success"
+        })
+    }).catch((err) => {
+        console.log(err);
+        res.status(500).json({
+            status: "error"
+        })
     })
 })
 
@@ -142,8 +157,7 @@ app.post('/login', async (req, res) => {
                     const username = req.body.username
                     const user = { name: username }
                     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' })
-                    res.cookie('access_token', accessToken, { maxAge: 3600000, httpOnly: true})
-                    // res.cookie('access_token', accessToken, { maxAge: 3600000, httpOnly: true, domain: 'localhost', sameSite: true, secure: true })
+                    res.cookie('access_token', accessToken, { maxAge: 3600000, httpOnly: true })
                     res.status(200).json({
                         path: '/dashboard/'
                     })
@@ -180,9 +194,35 @@ app.get('/getAllClients', authToken, async (req, res) => {
     })
 })
 
+app.delete('/deleteClient/:clientName', authToken, async (req, res) => {
+    let clientName = req.params.clientName
+    await ClientModel.deleteOne({ name: clientName }).then((data) => {
+        res.status(200).json({
+            status: "success",
+            data: data
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            status: "error",
+        })
+    })
+})
+
+app.delete('/clearDatabase', authToken, async (req, res) => {
+    await ClientModel.deleteMany({}).then((data) => {
+        res.status(200).json({
+            status: 'success'
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            status: 'error'
+        })
+    })
+})
+
 
 app.post("/newClient", validateClient, async (req, response) => {
-    const secretKey = '6LdS-80mAAAAAMwzfr9S3VLJUNWeNRUcSYKaSh13'
+    const secretKey = process.env.RECAPTCHA_SECRET
 
     const verifyUrl = `https://google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body.captcha}&remoteip=${req.connection.remoteAddress}`
 
@@ -190,11 +230,11 @@ app.post("/newClient", validateClient, async (req, response) => {
 
     request(verifyUrl, (err, res, body) => {
         console.log(body);
-        if(body.success == false){
+        if (body.success == false) {
             return response.status(401).json({
                 msg: 'Failed'
             })
-        }else{
+        } else {
             try {
                 const newClient = new ClientModel(req.body);
                 newClient.save().then(() => {

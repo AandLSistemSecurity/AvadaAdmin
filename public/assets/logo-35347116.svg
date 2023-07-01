@@ -1,0 +1,58 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1878.22 981.34">
+    <defs>
+        <style>
+            .cls-1 {
+                font-size: 258.8px;
+                font-weight: bold;
+                fill: #005D9A;
+            }
+
+            .cls-1,
+            .cls-6 {
+                font-weight: bold;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+
+            .cls-2 {
+                letter-spacing: -0.02em;
+            }
+
+            .cls-3 {
+                letter-spacing: -0.03em;
+            }
+
+            .cls-4 {
+                letter-spacing: -0.09em;
+            }
+
+            .cls-5 {
+                letter-spacing: -0.07em;
+            }
+
+            .cls-6 {
+                font-size: 147.98px;
+            }
+        </style>
+    </defs><text class="cls-1 text" transform="translate(0 764.5)">F<tspan class="cls-2" x="145.51" y="0">O</tspan>
+        <tspan class="cls-3 text" x="343.91" y="0">T</tspan>
+        <tspan x="484.35" y="0">OVO</tspan>
+        <tspan class="cls-4 text" x="1062.82" y="0">L</tspan>
+        <tspan class="cls-5 text" x="1177.55" y="0">T</tspan>
+        <tspan x="1303.64" y="0">AICE</tspan>
+    </text>
+    <rect fill="#3b996a" x="22.71" y="239.91" width="68.96" height="32.19" />
+    <rect fill="#3b996a" x="465.76" y="239.91" width="68.94" height="32.19" />
+    <polygon fill="#3b996a" points="48.95 370.06 65.05 397.94 124.76 363.46 108.67 335.59 48.95 370.06" />
+    <polygon fill="#3b996a" points="508.46 141.93 492.36 114.06 432.65 148.54 448.74 176.41 508.46 141.93" />
+    <polygon fill="#3b996a" points="136.77 469.66 164.65 485.75 199.13 426.04 171.25 409.95 136.77 469.66" />
+    <polygon fill="#3b996a" points="420.66 42.34 392.76 26.25 358.3 85.96 386.18 102.05 420.66 42.34" />
+    <rect fill="#3b996a" x="262.62" y="443.05" width="32.19" height="68.95" />
+    <rect fill="#3b996a" x="262.62" width="32.19" height="68.95" />
+    <polygon fill="#3b996a" points="358.3 426.04 392.76 485.75 420.66 469.66 386.18 409.95 358.3 426.04" />
+    <polygon fill="#3b996a" points="199.13 85.96 164.65 26.25 136.77 42.34 171.25 102.05 199.13 85.96" />
+    <polygon fill="#3b996a" points="432.65 363.46 492.36 397.94 508.46 370.06 448.74 335.59 432.65 363.46" />
+    <polygon fill="#3b996a" points="124.76 148.54 65.05 114.06 48.95 141.93 108.67 176.41 124.76 148.54" />
+    <path fill="#3b996a" d="M278.71,111.83A156.08,156.08,0,1,0,434.79,267.91,156.07,156.07,0,0,0,278.71,111.83Z"
+        transform="translate(0 -11.91)" />
+    <text fill="#3b996a" class="cls-6" transform="translate(1290.49 940.35)">ONGRID</text>
+</svg>
